@@ -1,0 +1,24 @@
+import cv2
+import time
+camera=cv2.VideoCapture(0)
+camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+start_time = time.time() 
+counter = 0     
+while True:
+    frame=camera.read()[1]
+    # print(frame.shape)
+    # FPS=int(camera.get(cv2.CAP_PROP_FPS))
+    counter += 1
+    if (time.time() - start_time) != 0:
+        FPS = 1 / (time.time() - start_time)
+        cv2.putText(frame,f"FPS:{FPS}",(10,30),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255),2)
+        print("FPS: ", counter / (time.time() - start_time))
+    cv2.circle(frame,(640,360),5,(0,0,255),-1)
+    cv2.rectangle(frame,(640-15,360-15),(640+15,360+15),(0,0,255),4)
+    cv2.imshow("frame",frame)
+    if cv2.waitKey(1) & 0xFF == ord('1'):
+        break
+    time.sleep(0.1)
+camera.release()
+cv2.destroyAllWindows()
